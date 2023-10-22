@@ -1,0 +1,39 @@
+[
+{
+    "Date": "October 14 2023",
+    "location": "Dépanneur Parisoir 598 Boulevard Decarie, Saint-Laurent , QC", 
+    "Walk_Length":"How long is the walk: 6 mins from home" ,
+    "Items_Bought":"popcorn, wine ",
+    "Purchase_feeling":"pretty good",
+    "Depanneur_choice_reson": "more options"
+
+},
+{
+    "Date": "October 15 2023",
+    "location": "Couche-Tard 10 Sainte Croix Ave, Saint-Laurent, QC", 
+    "Walk_Length":"How long is the walk: 12 mins from home" ,
+    "Items_Bought":"coca-cola zero, gum, Tim Horton coffee",
+    "Purchase_feeling":"happy",
+    "Depanneur_choice_reson": "It has a Tim Hortons inside it"
+
+},
+{
+    "Date": "October 16 2023",
+    "location": "Depanneur de la savane 8261 Decarie blvd, Montreal, QC", 
+    "Walk_Length":"How long is the walk: 3 mins from vet clinic" ,
+    "Items_Bought":"Cigarettes, gummy candy",
+    "Purchase_feeling":"kind of bad because of bad habits",
+    "Depanneur_choice_reson": "I was at a vet clinic and it was the nearest"
+
+},
+{
+    "Date": "October 17 2023",
+    "location": "Marche H Grou inc. 1353 du collage st, Saint-Laurent, QC", 
+    "Walk_Length":"How long is the walk: 2 mins from home" ,
+    "Items_Bought":"toilet paper, instant ramen noodles",
+    "Purchase_feeling":"relieved",
+    "Depanneur_choice_reson": "the closest and I’m lazy to go anywhere else!"
+}
+
+]
+

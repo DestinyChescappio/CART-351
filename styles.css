@@ -1,0 +1,43 @@
+.title {
+    font-family:'Courier New', Courier, monospace;
+    text-align: left;
+}
+
+.tabContainer {
+    width: 120%;
+    height: 350px; 
+}
+
+.tabContainer .buttonContainer{
+    height: 15%; 
+}
+.tabContainer .buttonContainer button{
+    width: 22%;
+    height: 100%;
+    float: left;
+    border: none; 
+    outline: none;
+    cursor: pointer;
+    padding: 10px; 
+    font-family:monospace;
+    font-size: 20px;
+    background-color: #D3ECDA;
+}
+
+.tabContainer .buttonContainer button:hover {
+    background-image: url(tabImageArt.jpg);
+    background-position-x:-50px;
+    background-position-y: -520px;
+}
+
+.tabContainer .tabPanel {
+    height: 85%;
+    background-color: gray;
+    color: white;
+    text-align:center;
+    padding-top: 150px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:22px;
+    display:none; 
+}

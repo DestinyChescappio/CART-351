@@ -1,0 +1,15 @@
+/* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+ body{
+    width: 100vw;
+    height: 100vh;
+
+
+ }
+ #map {
+    height: 60%;
+    width: 80%;
+    margin: auto;
+  }

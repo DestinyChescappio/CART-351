@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))}) -->
+      <!-- ({key: "AIzaSyBTz1uGQyGuGkoObAN3ZZZDED9II0luR2o", v: "weekly"}); -->
+    <!-- </script> -->
+    <!-- <link rel="stylesheet" type="text/css" href="depanneurStyle.css" />  -->
+    <style>
+            .mButton {
+        width: max-content;
+        padding: 5px;
+        background-color: yellow;
+        color: #292929;
+        font-size: 18px;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+      .mButton:hover {
+        background-color: #292929;
+        color: yellow;
+      }
+
+      .mflex {
+        display: flex;
+        flex-wrap: wrap;
+        flex-basis: 50%;
+        width: 100%;
+        justify-content: space-evenly;
+      }
+
+      #wrapper {
+        width: 90%;
+
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 2%;
+      }
+      .imageBox {
+        width: 40%;
+      }
+
+      .imageBox_flex {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .imageBox img {
+        width: 100%;
+        margin-top: 24px;
+        margin-bottom: 24px;
+      }
+
+      .imageBox_flex img {
+        width: 20%;
+        margin: 24px;
+        height: auto;
+      }
+
+      .textBox {
+        width: 40%;
+      }
+      .mapClass {
+        width: 70vw;
+        margin-top: 50px;
+        min-height: 200px;
+        background: orchid;
+      }
+
+      #weatherIn {
+        display: none;
+        background: orchid;
+        margin-top: 24px;
+        height: max-content;
+        padding-bottom: 10px;
+      }
+
+      #catContainer {
+        display: none;
+      }
+
+      #dataContainer {
+        display: none;
+      }
+
+      #mapQuestContainer {
+        display: none;
+      }
+    </style>
+
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest-maps.js"></script>
+    <link type="text/css" rel="stylesheet" href="weatherStyle.css" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest-maps.css"
+    />
+</head>
+<body>
+  <h1>Exercise 02: Depanneur Adventures</h1>
+  <div id="container">
+    <h1>Let's access some data :)</h1>
+    <div class="mflex">
+
+  <div class="mButton" id="data_via_mapquest">access mapquest data</div>
+  <input type="text" placeholder="location" id="location" />
+</div>
+  <div id="mapQuestContainer"></div>
+  <!-- <div id="map"></div> -->
+  <!-- <script src="depanneurScript.js"></script> -->
+  <div id="mapQuestContainer"></div>
+
+<script>
+     console.log("access data");
+        
+
+          fetch("depanneurAdventures.json")
+            .then((res) => res.json())
+            .then((jsonResult) => console.log(jsonResult));
+        
+</script>
+<script>
+        window.onload = function () {
+        // map each button to the associated function
+        document.querySelectorAll(".mButton").forEach(function (button) {
+          console.log(button.id);
+          /*We will use the eval() function to call a function from 
+            its name stored in a string. The eval() function evaluates a 
+            string as JavaScript code. 
+            This allows us to call the function by passing the 
+            string containing its name as an argument to the eval() function.*/
+          button.addEventListener("click", eval(button.id));
+        });
+      }
+/** reset doc when a different button is pressed**/
+       document.getElementById("mapQuestContainer").style.display = "none";
+
+             /*************************map quest-api *********************/
+             function data_via_mapquest() {
+          reset();
+          document.getElementById("mapQuestContainer").innerHTML = "";
+          document.getElementById("mapQuestContainer").style.display = "block";
+
+          console.log("mapquest");
+          if (document.getElementById("location").value !== "") {
+            let locationValue = document.getElementById("location").value;
+
+            let api_key = "eAl2E5BkqwOBqnNFtlhisatq5qKbmsOp";
+            //geocode
+            //https://developer.mapquest.com/documentation/geocoding-api/address/get/
+            let url = `https://www.mapquestapi.com/geocoding/v1/batch?key=${api_key}&inFormat=kvp&outFormat=json&location=${locationValue}%2C+CO&thumbMaps=false`;
+            fetch(url)
+              .then((res) => res.json())
+              .then((jsonResult) => {
+                console.log(jsonResult.results[0].locations[0]);
+                outputTheMap(jsonResult.results[0].locations[0], api_key);
+              });
+          } //if input
+          else {
+            alert("no value in location");
+          }
+        }
+
+             /*************************display-map-results *********************/
+        function outputTheMap(locationData, api_key) {
+          console.log(locationData.displayLatLng);
+
+          let pContainer = document.getElementById("mapQuestContainer");
+
+          let mapContainer = document.createElement("div");
+          mapContainer.id = "map";
+          mapContainer.classList.add("mapClass");
+          pContainer.appendChild(mapContainer);
+          //https://developer.mapquest.com/documentation/mapquest-js/v1.3/
+
+          L.mapquest.key = api_key;
+          // 'map' refers to a <div> element with the ID map
+          L.mapquest.map("map", {
+            // center: [37.7749, -122.4194],
+            //use the center from the results///
+            center: [
+              locationData.displayLatLng.lat,
+              locationData.displayLatLng.lng,
+            ],
+            layers: L.mapquest.tileLayer("map"),
+            zoom: 12,
+          });
+
+          document.getElementById("location").value = "";
+        }
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Audio API DEMO</title>
+</head>
+<body>
+ <audio id="biquadExample" controls>
+    <source src="barkingDog.mp3" type="audio/mpeg">
+ </audio>
+ <input type = "range" min = "0" max ="1000" id ="frequencySlider" onchange="changeFreq(event)"/>
+    <script src="WebAudioAPI.js"></script>
+
+<button onclick="enableLoop()" type="button">Enable Loop</button>
+<button onclick="disableLoop()" type="button">Disable Loop</button>
+
+<button onclick="getVolume()" type="button">What's the volume?</button>
+<button onclick="setHalfVolume()" type="button">set volume to 0.2</button>
+<button onclick="setFullVolume()" type="button">set volume to 1.0</button>
+<button onclick="applyFilter()" type="button">filter Node</button>
+
+</body>
+</html>
