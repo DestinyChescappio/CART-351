@@ -92,7 +92,7 @@
     </style>
 
     <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest-maps.js"></script>
-    <link type="text/css" rel="stylesheet" href="weatherStyle.css" />
+    <!-- <link type="text/css" rel="stylesheet" href="weatherStyle.css" /> -->
     <link
       type="text/css"
       rel="stylesheet"
@@ -103,94 +103,117 @@
   <h1>Exercise 02: Depanneur Adventures</h1>
   <div id="container">
     <h1>Let's access some data :)</h1>
+    
     <div class="mflex">
 
   <div class="mButton" id="data_via_mapquest">access mapquest data</div>
-  <input type="text" placeholder="location" id="location" />
+  <label for="depanneurs">Choose a depanneur:</label>
+
+  <select name="depanneurs" id="depanneurs">
+  
+  </select>
+  
 </div>
-  <div id="mapQuestContainer"></div>
-  <!-- <div id="map"></div> -->
-  <!-- <script src="depanneurScript.js"></script> -->
+<div id = "response">Info for select</div>
   <div id="mapQuestContainer"></div>
 
 <script>
-     console.log("access data");
-        
+     //console.log("access data");
+     //SABINE:: put everything together
+     window.onload = function () {
 
+      //1:: get the data>>>
           fetch("depanneurAdventures.json")
             .then((res) => res.json())
-            .then((jsonResult) => console.log(jsonResult));
-        
-</script>
-<script>
-        window.onload = function () {
-        // map each button to the associated function
-        document.querySelectorAll(".mButton").forEach(function (button) {
-          console.log(button.id);
-          /*We will use the eval() function to call a function from 
-            its name stored in a string. The eval() function evaluates a 
-            string as JavaScript code. 
-            This allows us to call the function by passing the 
-            string containing its name as an argument to the eval() function.*/
-          button.addEventListener("click", eval(button.id));
-        });
-      }
-/** reset doc when a different button is pressed**/
-       document.getElementById("mapQuestContainer").style.display = "none";
+            .then((jsonResult) => {console.log(jsonResult);
+              dataIsLoaded(jsonResult)});
 
-             /*************************map quest-api *********************/
+
+            //SABINE:: this is the function called once deppaneur data was loaded
+            function dataIsLoaded(depanneurData){
+              //click on the mapquest button and then run the function: data_via_mapquest
+              document.querySelector("#data_via_mapquest")
+              .addEventListener("click", data_via_mapquest);
+
+              let select = document.getElementById("depanneurs");
+              for(var i=0; i<depanneurData.length; i++){
+                let opt = document.createElement("option");
+                opt.value =  i;
+                opt.innerHTML = depanneurData[i].location;
+                select.appendChild(opt);
+  }
+
+
+
+               /*************************map quest-api *********************/
              function data_via_mapquest() {
-          reset();
-          document.getElementById("mapQuestContainer").innerHTML = "";
-          document.getElementById("mapQuestContainer").style.display = "block";
+              document.getElementById("mapQuestContainer").innerHTML = "";
+              document.getElementById("mapQuestContainer").style.display = "block";
+    
+              console.log("mapquest");
+              //if the field is not empty
+              //if (document.getElementById("location").value !== "") {
+              
+                let locationValue = depanneurData[document.getElementById("depanneurs").value].location;
+                //getting the data !! 
+                let date = depanneurData[document.getElementById("depanneurs").value].date;
+                let walkLength = depanneurData[document.getElementById("depanneurs").value].Walk_Length;
+                let itemsPuchased = depanneurData[document.getElementById("depanneurs").value].Items_Bought;
+                let feelings = depanneurData[document.getElementById("depanneurs").value].Purchase_feeling;
+                let choiceReason = depanneurData[document.getElementById("depanneurs").value].Depanneur_choice_reson;
+                //console.log(walkLength);
+                //response display stuff !!
+                let responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = date;
+                responseDiv.innerHTML = walkLength;
+                responseDiv.innerHTML = itemsPuchased;
+                responseDiv.innerHTML = feelings;
+                responseDiv.innerHTML = choiceReason;
+    
+                let api_key = "eAl2E5BkqwOBqnNFtlhisatq5qKbmsOp";
+                //geocode
+                let url = `https://www.mapquestapi.com/geocoding/v1/batch?key=${api_key}&inFormat=kvp&outFormat=json&location=${locationValue}%2C+CO&thumbMaps=false`;
+                fetch(url)
+                  .then((res) => res.json())
+                  .then((jsonResult) => {
+                    console.log(jsonResult.results[0].locations[0]);
+                    outputTheMap(jsonResult.results[0].locations[0], api_key);
+                  });
+            }
 
-          console.log("mapquest");
-          if (document.getElementById("location").value !== "") {
-            let locationValue = document.getElementById("location").value;
-
-            let api_key = "eAl2E5BkqwOBqnNFtlhisatq5qKbmsOp";
-            //geocode
-            //https://developer.mapquest.com/documentation/geocoding-api/address/get/
-            let url = `https://www.mapquestapi.com/geocoding/v1/batch?key=${api_key}&inFormat=kvp&outFormat=json&location=${locationValue}%2C+CO&thumbMaps=false`;
-            fetch(url)
-              .then((res) => res.json())
-              .then((jsonResult) => {
-                console.log(jsonResult.results[0].locations[0]);
-                outputTheMap(jsonResult.results[0].locations[0], api_key);
+    
+            /*************************display-map-results *********************/
+            function outputTheMap(locationData, api_key) {
+              console.log(locationData.displayLatLng);
+    
+              let pContainer = document.getElementById("mapQuestContainer");
+    
+              let mapContainer = document.createElement("div");
+              mapContainer.id = "map";
+              mapContainer.classList.add("mapClass");
+              pContainer.appendChild(mapContainer);
+              //https://developer.mapquest.com/documentation/mapquest-js/v1.3/
+    
+              L.mapquest.key = api_key;
+              // 'map' refers to a <div> element with the ID map
+              L.mapquest.map("map", {
+                // center: [37.7749, -122.4194],
+                //use the center from the results///
+                center: [
+                  locationData.displayLatLng.lat,
+                  locationData.displayLatLng.lng,
+                ],
+                layers: L.mapquest.tileLayer("map"),
+                zoom: 12,
               });
-          } //if input
-          else {
-            alert("no value in location");
-          }
-        }
+    
+              document.getElementById("location").value = "";
+            }
 
-             /*************************display-map-results *********************/
-        function outputTheMap(locationData, api_key) {
-          console.log(locationData.displayLatLng);
+            }
 
-          let pContainer = document.getElementById("mapQuestContainer");
-
-          let mapContainer = document.createElement("div");
-          mapContainer.id = "map";
-          mapContainer.classList.add("mapClass");
-          pContainer.appendChild(mapContainer);
-          //https://developer.mapquest.com/documentation/mapquest-js/v1.3/
-
-          L.mapquest.key = api_key;
-          // 'map' refers to a <div> element with the ID map
-          L.mapquest.map("map", {
-            // center: [37.7749, -122.4194],
-            //use the center from the results///
-            center: [
-              locationData.displayLatLng.lat,
-              locationData.displayLatLng.lng,
-            ],
-            layers: L.mapquest.tileLayer("map"),
-            zoom: 12,
-          });
-
-          document.getElementById("location").value = "";
-        }
+     }
+        
 </script>
 </body>
 </html>
