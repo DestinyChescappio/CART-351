@@ -4,91 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Exercise 2</title>
     <!-- <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))}) -->
       <!-- ({key: "AIzaSyBTz1uGQyGuGkoObAN3ZZZDED9II0luR2o", v: "weekly"}); -->
     <!-- </script> -->
     <!-- <link rel="stylesheet" type="text/css" href="depanneurStyle.css" />  -->
     <style>
-            .mButton {
+      body {
+        background-image: url("rm314-adj-10-job598.jpg");
+        background-repeat: no-repeat;
+        background-size:cover;
+      }
+
+      h1 {
+        background-color: #D8EDEF;
+        width:800px;
+        height:fit-content;
+        margin-left: 875px;
+        font-size: 30px;
+        font-family: cursive;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        text-align: center;
+      }
+
+      .mButton {
         width: max-content;
-        padding: 5px;
-        background-color: yellow;
+        padding: 10px;
+        background-color: #9E9E9E;
         color: #292929;
         font-size: 18px;
         border-radius: 2px;
         cursor: pointer;
       }
       .mButton:hover {
-        background-color: #292929;
-        color: yellow;
+        background-color: #B6B6B6;
+        color: white;
+      }
+
+      div {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bolder;
+        padding-top: 25px;
+        text-align: center;
       }
 
       .mflex {
+        width: max-content;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap:inherit;
         flex-basis: 50%;
         width: 100%;
-        justify-content: space-evenly;
+        justify-content:center;
       }
+      
 
-      #wrapper {
-        width: 90%;
-
-        display: flex;
-        flex-wrap: wrap;
-        margin-left: 2%;
-      }
-      .imageBox {
-        width: 40%;
-      }
-
-      .imageBox_flex {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-      }
-      .imageBox img {
-        width: 100%;
-        margin-top: 24px;
-        margin-bottom: 24px;
-      }
-
-      .imageBox_flex img {
-        width: 20%;
-        margin: 24px;
-        height: auto;
-      }
-
-      .textBox {
-        width: 40%;
-      }
       .mapClass {
-        width: 70vw;
+        height: 20vw;
+        width: 40vw;
         margin-top: 50px;
-        min-height: 200px;
+        margin-left: 750px;
         background: orchid;
-      }
-
-      #weatherIn {
-        display: none;
-        background: orchid;
-        margin-top: 24px;
-        height: max-content;
-        padding-bottom: 10px;
-      }
-
-      #catContainer {
-        display: none;
-      }
-
-      #dataContainer {
-        display: none;
       }
 
       #mapQuestContainer {
         display: none;
       }
+
     </style>
 
     <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest-maps.js"></script>
@@ -100,21 +82,29 @@
     />
 </head>
 <body>
-  <h1>Exercise 02: Depanneur Adventures</h1>
+  <a href="exercise2.zip" downloads="exercise2">
+    <button>Download html file</button>
+</a>
+
+  
+<h1>Exercise 02: Depanneur Adventures</h1>
   <div id="container">
-    <h1>Let's access some data :)</h1>
+
+    <label for="depanneurs">Choose a depanneur:</label>
+
     
     <div class="mflex">
 
-  <div class="mButton" id="data_via_mapquest">access mapquest data</div>
-  <label for="depanneurs">Choose a depanneur:</label>
+     
+  <div class="mButton" id="data_via_mapquest">search depanneur data</div>
+ 
 
   <select name="depanneurs" id="depanneurs">
   
   </select>
   
 </div>
-<div id = "response">Info for select</div>
+<div id = "response">How was the depanneur MTL adventures? (data will be available once accessed) </div>
   <div id="mapQuestContainer"></div>
 
 <script>
@@ -143,8 +133,6 @@
                 select.appendChild(opt);
   }
 
-
-
                /*************************map quest-api *********************/
              function data_via_mapquest() {
               document.getElementById("mapQuestContainer").innerHTML = "";
@@ -164,11 +152,12 @@
                 //console.log(walkLength);
                 //response display stuff !!
                 let responseDiv = document.getElementById('response');
-                responseDiv.innerHTML = date;
-                responseDiv.innerHTML = walkLength;
-                responseDiv.innerHTML = itemsPuchased;
-                responseDiv.innerHTML = feelings;
-                responseDiv.innerHTML = choiceReason;
+                response.innerHTML ='';
+                responseDiv.innerHTML += `<p>${date}</p>`;
+                responseDiv.innerHTML += `<p>${walkLength}</p>`;
+                responseDiv.innerHTML += `<p>${itemsPuchased}</p>`;
+                responseDiv.innerHTML += `<p>${feelings}</p>`;
+                responseDiv.innerHTML += `<p>${choiceReason}</p>`;
     
                 let api_key = "eAl2E5BkqwOBqnNFtlhisatq5qKbmsOp";
                 //geocode
@@ -208,11 +197,9 @@
               });
     
               document.getElementById("location").value = "";
+              }
             }
-
-            }
-
-     }
+         }
         
 </script>
 </body>
